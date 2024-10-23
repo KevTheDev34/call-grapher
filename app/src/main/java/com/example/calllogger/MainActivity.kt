@@ -8,11 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.github.mikephil.charting.charts.ScatterChart
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var launchButton : Button
     lateinit var phoneInput : EditText
+    lateinit var scatterChart : ScatterChart
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        }
         launchButton = findViewById(R.id.launch_script_btn)
         phoneInput = findViewById(R.id.number_input)
+        scatterChart = findViewById(R.id.scatterchart)
     }
 
     override fun onClick(v: View?) {
