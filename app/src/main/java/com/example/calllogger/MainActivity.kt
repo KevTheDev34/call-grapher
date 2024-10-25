@@ -32,18 +32,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
         launchButton = findViewById(R.id.launch_script_btn)
         phoneInput = findViewById(R.id.number_input)
         scatterChart = findViewById(R.id.scatterchart)
         debuggingText = findViewById(R.id.debugging)
-
         launchButton.setOnClickListener(this)
-
     }
 
     override fun onClick(v: View?) {
@@ -57,7 +50,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun getCallLogs(context: Context) {
+    private fun getCallLogs(context: Context) {
         val calllogsBuffer = mutableListOf<String>()
 
         context.contentResolver.query(
@@ -65,34 +58,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             null, null, null, null
         )?.use { cursor ->
             val numberIndex = cursor.getColumnIndex(CallLog.Calls.NUMBER)
+            val nameIndex = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME)
             val typeIndex = cursor.getColumnIndex(CallLog.Calls.TYPE)
             val dateIndex = cursor.getColumnIndex(CallLog.Calls.DATE)
-            val durationIndex = cursor.getColumnIndex(CallLog.Calls.DURATION)
 
             while (cursor.moveToNext()) {
                 val phoneNumber = cursor.getString(numberIndex)
+                val callerName = cursor.getString(nameIndex)
                 val callType = when (cursor.getInt(typeIndex)) {
                     CallLog.Calls.OUTGOING_TYPE -> "OUTGOING"
                     CallLog.Calls.INCOMING_TYPE -> "INCOMING"
                     CallLog.Calls.MISSED_TYPE -> "MISSED"
                     else -> "UNKNOWN"
                 }
+
+                // if phoneNumber or callerName match phoneInput.text and callType == INCOMING:
+                //      add to buffer
+                //
+                // getCallLogs -> list of Entries
+                // make other function to format into graph property
+
                 val callDate = Date(cursor.getLong(dateIndex))
-                val callDuration = cursor.getString(durationIndex)
 
                 calllogsBuffer.add(
-                    """
+                """
                 Phone Number: $phoneNumber
+                Caller ID: $callerName
                 Call Type: $callType
                 Call Date: $callDate
-                Call Duration (sec): $callDuration
                 """.trimIndent()
                 )
             }
-
             debuggingText.text = calllogsBuffer.toString()
         }
-
-        // Further processing or display of calllogsBuffer if needed
     }
 }
