@@ -13,10 +13,12 @@ In Android, scan through entire call history and collect data on the calls from 
          - Fixed: Looked up what the difference was between my screen and what I found online. Mine is in Goofy while others are in Kotlin. Asked GPT for a fix. Also found out that simply typing the class name in the xml file will autocomplete with the given library if it's working.
       
 # Next Steps
-- [ ] Fix MPAndroidChart import
-- [ ] Add empty graph to xml file
-- [ ] OnClick logic to collect phone call data
-- [ ] Organize data collected into what the graph needs
+- [x] Fix MPAndroidChart import
+- [x] Add empty graph to xml file
+- [x] OnClick logic to collect phone call data
+- [x] Organize data collected into what the graph needs
+- [ ] Convert Entry's into ScatterData for the ScatterChart
+- [ ] Format ScatterChart into what I want it to look like
 
 
 # Packages/Things to Install
